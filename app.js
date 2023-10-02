@@ -1,14 +1,33 @@
 const express = require('express');
+const morgan = require('morgan')
+
 
 
 //express app 
 const app = express();
+
+//database
+const dbURI='mongodb+srv://netninja:test1234@cluster0.9mvksbm.mongodb.net/'
 
 //register view engine
 app.set('view engine', 'ejs');
 
 //listen for request
 app.listen(3000);
+
+//middle ware
+//app.use((req, res, next)=>{
+    //console.log("new request made:")
+    //console.log("host: ", req.hostname)
+    //console.log('path: ', req.path);
+    //console.log('method: ', req.method);
+    //next();
+//});
+
+app.use(express.static('public'))
+app.use(morgan('dev'))
+
+
 
 //respond
 app.get('/', (req, res)=>{
