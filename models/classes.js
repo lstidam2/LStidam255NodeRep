@@ -1,7 +1,7 @@
 const mongoose=require('mongoose');
 const Schema = mongoose.Schema;
 
-const blogSchema = new Schema({
+const classSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -16,6 +16,6 @@ const blogSchema = new Schema({
     }
 }, {timestamps: true});
 
-const Blog = mongoose.model('Blog', blogSchema);
+const Class = mongoose.model('Class', classSchema);
 
-module.exports = Blog;
+module.exports = Class;
