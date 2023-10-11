@@ -37,6 +37,7 @@ app.get('/about', (req, res) => {
   res.render('about', { title: 'About' });
 });
 
+
 app.get('/login', (req, res)=>{
   res.render('login', {title: 'Login'})
 })
