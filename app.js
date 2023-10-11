@@ -2,12 +2,13 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const classRoutes = require('./routes/classRoutes')
+const authRoutes= require('./routes/authRoutes')
 
 // express app
 const app = express();
 
 // connect to mongodb & listen for requests
-const dbURI = 'mongodb+srv://netninja:test1234@cluster0.9mvksbm.mongodb.net/node-tuts'
+const dbURI = 'mongodb+srv://test:test123@cluster0.9mvksbm.mongodb.net/node-tuts'
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(result => app.listen(3000))
   .catch(err => console.log(err));
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
   res.locals.path = req.path;
   next();
 });
+app.use(express.json());
 
 // routes
 app.get('/', (req, res) => {
@@ -33,8 +35,20 @@ app.get('/about', (req, res) => {
   res.render('about', { title: 'About' });
 });
 
+app.get('/login', (req, res)=>{
+  res.render('login', {title: 'Login'})
+})
+
+app.get('/signup', (req, res)=>{
+  res.render('signup', {title: 'Signup'})
+})
+
+
 // class routes
 app.use('/classes', classRoutes);
+
+//auth routes
+app.use(authRoutes);
 
 
 // 404 page
