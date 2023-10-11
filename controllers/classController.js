@@ -37,6 +37,7 @@ const class_edit_post = (req, res)=>{
   const course = {
     title: req.body.title,
     snippet: req.body.snippet,
+    credits: req.body.credits,
     body:req.body.body,
   }
   Blog.findByIdAndUpdate(id, course)

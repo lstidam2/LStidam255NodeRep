@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const classRoutes = require('./routes/classRoutes')
 const authRoutes= require('./routes/authRoutes')
 const cookieParser = require('cookie-parser');
-const { requireAuth, checkUser} = require('./middleware/authMiddleware')
+const { requireAuth, checkUser, instructorOnly} = require('./middleware/authMiddleware')
 
 // express app
 const app = express();
@@ -30,6 +30,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 // routes
+
+//auth routes
+
+
 app.get('*', checkUser);
 app.get('/', (req, res) => {
   res.redirect('/classes');
@@ -48,16 +52,19 @@ app.get('/signup', (req, res)=>{
   res.render('signup', {title: 'Signup'})
 })
 
-app.get('/classes/create', requireAuth, (req,res)=>{
+app.get('/classes/create', instructorOnly, (req,res)=>{
   res.render('classes/create', {title: "create class"})
 })
 
+app.get('/classes/cart', (req, res)=>{
+  res.render('classes/cart', {title: "cart"})
+})
 
+
+app.use(authRoutes);
 // class routes
 app.use('/classes', classRoutes);
 
-//auth routes
-app.use(authRoutes);
 
 
 // 404 page
@@ -65,4 +72,4 @@ app.use((req, res) => {
     res.status(404).render('404', { title: '404' });
 });
 
-// cookies
+

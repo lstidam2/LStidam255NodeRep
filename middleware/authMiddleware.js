@@ -8,13 +8,13 @@ const requireAuth = (req, res, next) => {
   if (token) {
     jwt.verify(token, 'secret', (err, decodedToken) => {
       if (err) {
-        console.log(err.message);
+        console.log(err);
         res.redirect('/login');
       } else {
         console.log(decodedToken);
         next();
       }
-    });
+    })
   } else {
     res.redirect('/login');
   }
@@ -27,18 +27,41 @@ const checkUser = (req, res, next) => {
     jwt.verify(token, 'secret', async (err, decodedToken) => {
       if (err) {
         res.locals.user = null;
+        console.log(err);
         next();
       } else {
         let user = await User.findById(decodedToken.id);
         res.locals.user = user;
         next();
       }
-    });
+    })
   } else {
     res.locals.user = null;
     next();
   }
 };
 
+//instructor
+const instructorOnly= (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (token) {
+    jwt.verify(token, 'secret', async (err, decodedToken) => {
+      if (err) {
+        console.log(err)
+        next();
+      } else {
+        let user = await User.findById(decodedToken.id);
+        if (user.instructor) {next();}
+        else{
+          res.redirect('/login')}
+        
+      }
+    })
+  } else {
+    res.redirect('/login')
+  }
+};
 
-module.exports = { requireAuth, checkUser };
+
+
+module.exports = { requireAuth, checkUser, instructorOnly };

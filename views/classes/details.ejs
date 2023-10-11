@@ -1,3 +1,4 @@
+
 <html lang="en">
 <%- include("../partials/head.ejs") %>
 
@@ -7,14 +8,26 @@
   <div class="details content">
     <h2><%= course.title %></h2>
     <div class="content">
+      <h4><%= course.snippet %></h4>
+      <h2><%= course.credits %></h2>
       <p><%= course.body %></p>
     </div>
-    <a class="delete" data-doc="<%= course._id %>">
-      <img src="/trashcan.svg" alt="delete icon">
-    </a>
+    <% if (user) { %>
+      <% if (user.instructor) { %>
+      <a class="delete" data-doc="<%= course._id %>">
+        <img src="/trashcan.svg" alt="delete icon">
+      </a>
+      <% } %>
+    <% } %>
   </div>
-  <a class = "edit" href="/classes/edit/<%= course._id %>">Edit</a>
+  <% if (user) { %>
+    <% if (user.instructor) { %>
+      <a class = "edit" href="/classes/edit/<%= course._id %>">Edit</a>
+    <% } else {%>
+      <a class ="cart">Add to Cart</a>
+    <% } %>
 
+  <% } %>
   <%- include("../partials/footer.ejs") %>
 
   <script>
@@ -30,7 +43,7 @@
       .then(data => window.location.href = data.redirect)
       .catch(err => console.log(err));
     });
-    
+
   </script>
 </body>
 </html>

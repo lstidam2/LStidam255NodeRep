@@ -10,6 +10,10 @@ const classSchema = new Schema({
         type: String,
         required: true
     },
+    credits:{
+        type: Number,
+        required:true
+    },
     body: {
         type: String,
         required: true
