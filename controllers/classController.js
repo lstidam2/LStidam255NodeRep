@@ -21,6 +21,31 @@ const class_details = (req, res) => {
     });
 }
 
+const class_edit_details = (req, res) => {
+  const id = req.params.id;
+  Blog.findById(id)
+    .then(result => {
+      res.render('classes/edit', { course: result, title: 'Blog Details' });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+}
+
+const class_edit_post = (req, res)=>{
+  const id= req.params.id
+  const course = {
+    title: req.body.title,
+    snippet: req.body.snippet,
+    body:req.body.body,
+  }
+  Blog.findByIdAndUpdate(id, course)
+  .then(result=>{
+    res.redirect('/')
+  })
+  .catch(err=>{console.log(err)})
+}
+
 const class_create_get = (req, res) => {
   res.render('classes/create', { title: 'Create a new class' });
 }
@@ -53,4 +78,6 @@ module.exports = {
   class_create_get, 
   class_create_post, 
   class_delete,
+  class_edit_details,
+  class_edit_post,
 }
