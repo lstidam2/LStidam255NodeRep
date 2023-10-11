@@ -4,11 +4,18 @@
     </div>
     
     <ul>
+        <% if (user) { %>
+        <li>Welcome, <%= user.email %></li>
+        <% } %>
         <li><a href="./about">General</a></li>
         <li><a href="/">Classes</a></li>
         <li><a href='/classes/create'>New Class</a></li>
-        <li><a href='/login'>Login</a></li>
+        <% if (user) { %>
         <li><a href='/logout'>Logout</a></li>
+        <% } else { %>
+        <li><a href='/login'>Login</a></li>
+        <% } %>
+        
         
     </ul>
 </nav>

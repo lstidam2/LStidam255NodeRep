@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const classRoutes = require('./routes/classRoutes')
 const authRoutes= require('./routes/authRoutes')
 const cookieParser = require('cookie-parser');
+const { requireAuth, checkUser} = require('./middleware/authMiddleware')
 
 // express app
 const app = express();
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // routes
+app.get('*', checkUser);
 app.get('/', (req, res) => {
   res.redirect('/classes');
 });
@@ -44,6 +46,10 @@ app.get('/login', (req, res)=>{
 
 app.get('/signup', (req, res)=>{
   res.render('signup', {title: 'Signup'})
+})
+
+app.get('/classes/create', requireAuth, (req,res)=>{
+  res.render('classes/create', {title: "create class"})
 })
 
 
